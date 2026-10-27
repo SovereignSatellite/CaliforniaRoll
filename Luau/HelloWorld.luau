@@ -1,3 +1,6 @@
+--!native
+--!optimize 2
+
 const instantiate = os.clock()
 
 const Compiler = require("./Compiler")
@@ -17,13 +20,14 @@ for index = 1, 3 do
 	print()
 
 	const compile = os.clock()
-	const run = VM.load((Compiler.compile(SOURCE)))
+	const bytecode = Compiler.compile(SOURCE)
+	const closure = VM.load(bytecode)
 
 	print((string.format("(Compile %d) %.6f s", index, os.clock() - compile)))
 
 	const execute = os.clock()
 
-	run()
+	closure()
 
 	print((string.format("(Execute %d) %.6f s", index, os.clock() - execute)))
 end
